@@ -61,4 +61,6 @@ short average_search_time(pfunc_search method,
         ptime->N = N;
         ptime->n_elems = n_times;
         ptime->time = avg_time;
+
+        return OK;
     }
