@@ -20,6 +20,7 @@
 #include "permutations.h"
 #include "search.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /* type definitions */
 typedef struct time_aa {
