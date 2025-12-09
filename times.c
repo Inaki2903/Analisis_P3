@@ -12,11 +12,11 @@ short average_search_time(pfunc_search method,
 {
     PDICT dict = NULL;
     int *perm = NULL, *keys;
-    int avg_ob, min_ob = __INT_MAX__, max_ob = __WINT_MIN__, ob_act, ob_tot = 0, i, pos;
+    int min_ob = __INT_MAX__, max_ob = -(__INT_MAX__), ob_act, ob_tot = 0, i, pos;
     struct timespec time_init, time_fin;
-    double avg_time;
+    double avg_time, diff_time, avg_ob;
 
-    if (method == NULL || generator == NULL || (order != NOT_SORTED && order != NOT_SORTED) || N <= 0 || n_times <= 0)
+    if (method == NULL || generator == NULL || (order != NOT_SORTED && order != SORTED) || N <= 0 || n_times <= 0)
     {
         printf("Invalid parameters");
         return ERR;
@@ -51,14 +51,15 @@ short average_search_time(pfunc_search method,
     }
     clock_gettime(CLOCK_REALTIME, &time_fin);
 
-    avg_time = (time_fin.tv_sec - time_init.tv_sec + (time_fin.tv_nsec - time_init.tv_nsec) / NS_PER_S) / (N * n_times);
-    avg_ob = ob_tot / (N * n_times);
+    diff_time = (time_fin.tv_sec - time_init.tv_sec + (time_fin.tv_nsec - time_init.tv_nsec)/(double)NS_PER_S);
+    avg_time = diff_time/(double)(N * n_times);
+    avg_ob = (double)ob_tot/(double)(N * n_times);
 
     ptime->average_ob = avg_ob;
     ptime->max_ob = max_ob;
     ptime->min_ob = min_ob;
     ptime->N = N;
-    ptime->n_elems = n_times;
+    ptime->n_elems = n_times * N;
     ptime->time = avg_time;
 
     free(perm);
@@ -82,14 +83,14 @@ short generate_search_times(pfunc_search method,
         return ERR;
     }
 
-    n_incrs = (num_max - num_min + 1)/incr;
+    n_incrs = ((num_max - num_min + 1)/incr) + 1;
     
     if(!(results = (PTIME_AA)malloc(sizeof(TIME_AA) * n_incrs)))
     {
         return ERR;
     }
 
-    for(i = num_min, j = 0; i <= num_max; i += incr, j++)
+    for(i = num_min, j = 0; i <= num_max && j < n_incrs; i += incr, j++)
     {
         res = average_search_time(method, generator, order, i, n_times, &results[j]);
         if(res == ERR)

@@ -3,7 +3,7 @@
 # It is assumed that the name of the source files is exercise1.c, exercise2.c,...,exercise.h
 #-----------------------
 
-CC = gcc -ansi -pedantic
+CC = gcc -ansi -pedantic -g
 CFLAGS = -Wall
 EXE = exercise1 exercise2
 
@@ -54,4 +54,4 @@ exercise1_test:
 
 exercise2_test:
 	@echo Running exercise2
-	@./exercise2 -num_min 1 -num_max 5 -incr 1 -n_times 1 -outputFile exercise5.log
+	@./exercise2 -num_min 1000 -num_max 50000 -incr 500 -n_times 5 -outputFile bin_search.log
