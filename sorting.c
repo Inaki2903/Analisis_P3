@@ -3,9 +3,8 @@
  * Descripcion: Implementation of sorting functions
  *
  * Fichero: sorting.c
- * Autor: Carlos Aguirre
+ * Autor: Iñaki Lopez
  * Version: 1.0
- * Fecha: 16-09-2019
  *
  */
 
@@ -14,8 +13,17 @@
 #include <stddef.h>
 
 /***************************************************/
-/* Function: InsertSort    Date:                   */
-/* Your comment                                    */
+/* Function: average_search_time Date:             */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Orders the contents of array using InsertSort   */
+/*                                                 */
+/* Input:                                          */
+/* array: the elements to be ordered               */
+/* ip: first index of the range to be ordered      */
+/* iu: last index of the range to be ordered       */
+/* Output:                                         */
+/* OBs if everything went right, ERR otherwise     */
 /***************************************************/
 int InsertSort(int* array, int ip, int iu)
 {
@@ -46,8 +54,17 @@ int InsertSort(int* array, int ip, int iu)
 
 
 /***************************************************/
-/* Function: SelectSort    Date: 26/09/2025        */
-/* Your comment                                    */
+/* Function: average_search_time Date:             */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Sorts the contents of the array using BubbleSort*/
+/*                                                 */
+/* Input:                                          */
+/* array: the array of numbers to be ordered       */
+/* ip: the first index of the range to be ordered  */
+/* iu: the last index of the range to be ordered   */
+/* Output:                                         */
+/* OBs if everything went right, ERR otherwise     */
 /***************************************************/
 int BubbleSort(int* array, int ip, int iu)
 {

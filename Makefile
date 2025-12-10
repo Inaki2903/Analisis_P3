@@ -54,4 +54,4 @@ exercise1_test:
 
 exercise2_test:
 	@echo Running exercise2
-	@./exercise2 -num_min 1000 -num_max 50000 -incr 500 -n_times 5 -outputFile bin_search.log
+	@./exercise2 -num_min 1000 -num_max 10000 -incr 500 -n_times 10000 -outputFile lin_10000.txt

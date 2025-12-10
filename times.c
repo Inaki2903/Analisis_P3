@@ -4,6 +4,25 @@
 
 #define NS_PER_S 1000000000
 
+/***************************************************/
+/* Function: average_search_time Date:             */
+/* Authors: Daniel Martín                          */
+/*                                                 */
+/* Rutine that studies the perfomance of a function*/
+/*                                                 */
+/* Input:                                          */
+/* method: function to be studied                  */
+/* generator: generator rutine used to generate the*/
+/*            keys to be searched                  */
+/* order: wether the dictionary is ordered or not  */
+/* N: number of elements in the dictionary         */
+/* n_times: how many times the keys are ran through*/
+/*          the function that's being analyzed     */
+/* ptime: pointer to the struct that stores the    */
+/*        results of the analisis                  */
+/* Output:                                         */
+/* OK if everything went right, ERR otherwise      */
+/***************************************************/
 short average_search_time(pfunc_search method,
                           pfunc_key_generator generator,
                           int order, int N,
@@ -12,9 +31,10 @@ short average_search_time(pfunc_search method,
 {
     PDICT dict = NULL;
     int *perm = NULL, *keys;
-    int min_ob = __INT_MAX__, max_ob = -(__INT_MAX__), ob_act, ob_tot = 0, i, pos;
+    int min_ob = __INT_MAX__, max_ob = -(__INT_MAX__), ob_act, i, pos;
+    long long ob_tot = 0;
     struct timespec time_init, time_fin;
-    double avg_time, diff_time, avg_ob;
+    double avg_time, diff_time, avg_ob = 0;
 
     if (method == NULL || generator == NULL || (order != NOT_SORTED && order != SORTED) || N <= 0 || n_times <= 0)
     {
@@ -53,7 +73,7 @@ short average_search_time(pfunc_search method,
 
     diff_time = (time_fin.tv_sec - time_init.tv_sec + (time_fin.tv_nsec - time_init.tv_nsec)/(double)NS_PER_S);
     avg_time = diff_time/(double)(N * n_times);
-    avg_ob = (double)ob_tot/(double)(N * n_times);
+    avg_ob = (double)ob_tot/(double)((long long)N * (long long)n_times);
 
     ptime->average_ob = avg_ob;
     ptime->max_ob = max_ob;
@@ -68,6 +88,27 @@ short average_search_time(pfunc_search method,
     return OK;
 }
 
+/***************************************************/
+/* Function: generate_search_times Date:           */
+/* Authors: Daniel Martín                          */
+/*                                                 */
+/* Rutine that automatizes the use of              */
+/* average_search_time                             */
+/*                                                 */
+/* Input:                                          */
+/* method: function to be studied                  */
+/* generator: generator rutine used to generate the*/
+/*            keys to be searched                  */
+/* order: wether the dictionary is ordered or not  */
+/* file: name of the file where the results will be*/
+/*       stored                                    */
+/* num_min: the starter index                      */
+/* num_max: the finishing index                    */
+/* incr: number of steps taken per search          */
+/* n_times: number of times the keys are searched  */
+/* Output:                                         */
+/* OK if everything went right, ERR otherwise      */
+/***************************************************/
 short generate_search_times(pfunc_search method,
                             pfunc_key_generator generator,
                             int order, char *file,
@@ -97,6 +138,8 @@ short generate_search_times(pfunc_search method,
         {
             return ERR;
         }
+
+        printf("Terminado %d de %d.\n", j+1, n_incrs);
     }
 
     res = save_time_table(file, results, n_incrs);
@@ -109,6 +152,19 @@ short generate_search_times(pfunc_search method,
     return OK;
 }
 
+/***************************************************/
+/* Function: average_search_time Date:             */
+/* Authors: Daniel Martín                          */
+/*                                                 */
+/* Saves the contents of ptime into a file         */
+/*                                                 */
+/* Input:                                          */
+/* file: name of the file                          */
+/* ptime: array of TIME_AA structures              */
+/* n_times: number of elemetns in the ptime array  */
+/* Output:                                         */
+/* OK if everything went right, ERR otherwise      */
+/***************************************************/
 short save_time_table(char* file, PTIME_AA ptime, int n_times)
 {
   int i;

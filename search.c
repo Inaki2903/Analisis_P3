@@ -56,6 +56,19 @@ void potential_key_generator(int *keys, int n_keys, int max)
   return;
 }
 
+/***************************************************/
+/* Function: init_dictionary Date:                 */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Initializes an empty dictionary                 */
+/*                                                 */
+/* Input:                                          */
+/* size: size of the dictionary                    */
+/* order: wether the dictionary is ordered or not  */
+/* Output:                                         */
+/* pointer to the new dictionary if everything     */
+/* went right, NULL otherwise                      */
+/***************************************************/
 PDICT init_dictionary (int size, char order)
 {
     PDICT pdict;
@@ -79,7 +92,15 @@ PDICT init_dictionary (int size, char order)
     return pdict;
 }
 
-
+/***************************************************/
+/* Function: free_dictionary Date:                 */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Frees the memory of a given dictionary          */
+/*                                                 */
+/* Input:                                          */
+/* pdict: pointer to the dictionary to be freed    */
+/***************************************************/
 void free_dictionary(PDICT pdict)
 {
     if (pdict == NULL)
@@ -91,7 +112,18 @@ void free_dictionary(PDICT pdict)
     free(pdict);
 }
 
-
+/***************************************************/
+/* Function: insert_dictionary Date:               */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Inserts a new element into a dictionary         */
+/*                                                 */
+/* Input:                                          */
+/* pdict: dictionary where the key will be inserted*/
+/* key: the key to be inserted                     */
+/* Output:                                         */
+/* OB's if everything went right, ERR otherwise    */
+/***************************************************/
 int insert_dictionary(PDICT pdict, int key)
 {
     int j, A;
@@ -127,7 +159,20 @@ int insert_dictionary(PDICT pdict, int key)
     return ob;
 }
 
-
+/***************************************************/
+/* Function: massive_insertion_dictionary Date:    */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Inserts multiple elements into a dictionary     */
+/*                                                 */
+/* Input:                                          */
+/* pdict: pointer to the dictionary where the keys */
+/*        will be inserted into                    */
+/* keys: array with the keys to be inserted        */
+/* n_keys: number of keys to be inserted           */
+/* Output:                                         */
+/* OB's if everything went okay, ERR otherwise     */
+/***************************************************/
 int massive_insertion_dictionary (PDICT pdict, int *keys, int n_keys)
 {
     int i;
@@ -148,7 +193,25 @@ int massive_insertion_dictionary (PDICT pdict, int *keys, int n_keys)
     return ob_total;
 }
 
-
+/***************************************************/
+/* Function: search_dictionary Date:               */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Searches through a dictionary for a key using a */
+/* given method                                    */
+/*                                                 */
+/* Input:                                          */
+/* pdict: pointer to the dictionary that'll be used*/
+/* key: key to be searched for                     */
+/* ppos: position of the key that has been searched*/
+/* for                                             */
+/* method: the function that'll be used for the    */
+/* search                                          */
+/* Output:                                         */
+/* NOT_FOUND if the key wasn't found, ERR if       */
+/* something went wrong or OB's if everything went */
+/* okay                                            */
+/***************************************************/
 int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method)
 {
     if (pdict == NULL || pdict->table == NULL || method == NULL)
@@ -164,7 +227,24 @@ int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method)
 }
 
 
-
+/***************************************************/
+/* Function: bin_search      Date:                 */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Searches for a key using binary search          */
+/*                                                 */
+/* Input:                                          */
+/* table: array that's being searched              */
+/* F: first index of the range that's being        */
+/* searched                                        */
+/* L: last index of the range that's being serached*/
+/* key: the key that's being searched for          */
+/* ppos: the position of the key if found          */
+/* Output:                                         */
+/* NOT_FOUND if the key wasn't found, ERR if       */
+/* something went wrong or OB's if everything went */
+/* okay                                            */
+/***************************************************/
 int bin_search(int *table, int F, int L, int key, int *ppos)
 {
     int inf = F;
@@ -199,7 +279,24 @@ int bin_search(int *table, int F, int L, int key, int *ppos)
     return NOT_FOUND;
 }
 
-
+/***************************************************/
+/* Function: lin_search      Date:                 */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Searches for a key using linear search          */
+/*                                                 */
+/* Input:                                          */
+/* table: array that's being searched              */
+/* F: first index of the range that's being        */
+/* searched                                        */
+/* L: last index of the range that's being serached*/
+/* key: the key that's being searched for          */
+/* ppos: the position of the key if found          */
+/* Output:                                         */
+/* NOT_FOUND if the key wasn't found, ERR if       */
+/* something went wrong or OB's if everything went */
+/* okay                                            */
+/***************************************************/
 int lin_search(int *table, int F, int L, int key, int *ppos)
 {
     int i;
@@ -221,7 +318,24 @@ int lin_search(int *table, int F, int L, int key, int *ppos)
     return NOT_FOUND;
 }
 
-
+/***************************************************/
+/* Function: lin_auto_search      Date:            */
+/* Authors: Iñaki Lopez                            */
+/*                                                 */
+/* Searches for a key using linear auto search     */
+/*                                                 */
+/* Input:                                          */
+/* table: array that's being searched              */
+/* F: first index of the range that's being        */
+/* searched                                        */
+/* L: last index of the range that's being serached*/
+/* key: the key that's being searched for          */
+/* ppos: the position of the key if found          */
+/* Output:                                         */
+/* NOT_FOUND if the key wasn't found, ERR if       */
+/* something went wrong or OB's if everything went */
+/* okay                                            */
+/***************************************************/
 int lin_auto_search(int *table, int F, int L, int key, int *ppos)
 {
     int i, tmp;
